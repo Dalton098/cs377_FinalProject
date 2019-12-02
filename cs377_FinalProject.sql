@@ -11,6 +11,7 @@ Create Table Department (
     Dname VARCHAR(50) NOT NULL
 )
 
+-- DeptId and MgrSsn are allowed to be null to prevent cascading deletes
 Create Table Employee (
     Ssn INT PRIMARY KEY NOT NULL,
     EmpName VARCHAR(50) NOT NULL,
@@ -28,6 +29,8 @@ Create Table Car (
     StickerPrice INT NOT NULL
 )
 
+-- EmployeeSsn is allowed to be null to prevent cascading deletes
+-- ex: Employee quits and is deleted their sales are not deleted as well
 Create Table Sales (
     SaleId INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
     RegistrationNum INT NOT NULL FOREIGN KEY REFERENCES Car(RegistrationNum),
