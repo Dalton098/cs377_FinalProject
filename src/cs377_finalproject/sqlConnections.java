@@ -142,13 +142,21 @@ public class sqlConnections {
         }
     }
 
-    public static void updateCarAvailability() throws SQLException {
+    /**
+     * Changes the given car's availability
+     *
+     * @param regNum Registration Number of the car
+     * @param isAvailable The status of whether the car is available or not
+     * @throws SQLException
+     */
+    public static void updateCarAvailability(int regNum, boolean isAvailable) throws SQLException {
 //        only changes availability bit value
 
         try {
             establishConnectionToDatabase();
             String query = "";
             pstmt = conn.prepareStatement(query);
+//            HAVE TO CAST BOOLEAN TO INT OF 0 OR 1 BECAUSE SQL USES BIT
 
 //            insert query shit here (use prepared statement)
         } catch (SQLException e) {
@@ -167,7 +175,14 @@ public class sqlConnections {
         }
     }
 
-    public static void updateSalary() throws SQLException {
+    /**
+     * Updates the salary of the employee to the given amount
+     *
+     * @param employeeSsn The employee's social security number
+     * @param salary The salary of the employee
+     * @throws SQLException
+     */
+    public static void updateSalary(int employeeSsn, int salary) throws SQLException {
 //    only changes salary    
         try {
             establishConnectionToDatabase();
@@ -191,7 +206,14 @@ public class sqlConnections {
         }
     }
 
-    public static void updateDepartment() throws SQLException {
+    /**
+     * Updates the department's name to the given name
+     *
+     * @param deptId The ID of the department that's name is going to be changed
+     * @param name The new name for the department
+     * @throws SQLException
+     */
+    public static void updateDepartment(int deptId, String name) throws SQLException {
 //        only changes name
 
         try {
@@ -268,6 +290,14 @@ public class sqlConnections {
         }
     }
 
+    /**
+     * Takes a specific registration number and returns the info pertaining to
+     * that car
+     *
+     * @param regNum The registration number of the car
+     * @return The information of the car
+     * @throws SQLException
+     */
     public static String selectSpecificCar(int regNum) throws SQLException {
 
         try {
@@ -301,6 +331,15 @@ public class sqlConnections {
         }
     }
 
+    /**
+     * Takes a given make, model, and year and returns any cars that match
+     *
+     * @param make The make of the car
+     * @param model The model of the car
+     * @param year The year of the car
+     * @return The cars that matched on make, model, and year
+     * @throws SQLException
+     */
     public static String selectCars(String make, String model, int year) throws SQLException {
 
         try {
@@ -338,6 +377,13 @@ public class sqlConnections {
         }
     }
 
+    /**
+     * Takes in a saleId and returns the info pertaining to the sale
+     *
+     * @param saleId The id of the sale to be looked for
+     * @return A string containing the information from the sale
+     * @throws SQLException
+     */
     public static String selectSale(int saleId) throws SQLException {
 
         try {
@@ -373,8 +419,16 @@ public class sqlConnections {
         }
     }
 
+    /**
+     * Takes in a department Id and returns information pertaining to the
+     * department
+     *
+     * @param deptId The id of the department
+     * @return The name and deptId of the department
+     * @throws SQLException
+     */
     public static String selectDepartment(int deptId) throws SQLException {
-        
+
         try {
             establishConnectionToDatabase();
             String query = "SELECT * FROM [FinalProject].[dbo].[Department] d"
