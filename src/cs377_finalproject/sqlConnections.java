@@ -269,17 +269,21 @@ public class sqlConnections {
     }
 
     public static String selectSpecificCar(int regNum) throws SQLException {
-            
+
         try {
             establishConnectionToDatabase();
             String query = "SELECT * FROM [FinalProject].[dbo].[Car] c"
                     + " WHERE c.RegistrationNum = ?";
-            
+
             pstmt = conn.prepareStatement(query);
             pstmt.setInt(1, regNum);
-            
+
             ResultSet rs = pstmt.executeQuery();
             String toReturn = stringQueryResults(rs);
+
+            if (toReturn.length() == 0) {
+                toReturn = "Unable to find any records";
+            }
 
             return toReturn;
 
@@ -297,20 +301,30 @@ public class sqlConnections {
         }
     }
 
-    public static String selectCars() throws SQLException {
-//        takes make, model, year and returns all cars of this type
+    public static String selectCars(String make, String model, int year) throws SQLException {
 
         try {
             establishConnectionToDatabase();
-            String query = "";
+            String query = "SELECT * FROM [FinalProject].[dbo].[Car] c"
+                    + " Where c.Make = ? AND c.Model = ? AND c.YearMade = ?";
             pstmt = conn.prepareStatement(query);
 
-//            insert query shit here (use prepared statement)
-            return null;
+            pstmt.setString(1, make);
+            pstmt.setString(2, model);
+            pstmt.setInt(3, year);
+
+            ResultSet rs = pstmt.executeQuery();
+            String toReturn = stringQueryResults(rs);
+
+            if (toReturn.length() == 0) {
+                toReturn = "Unable to find any records";
+            }
+
+            return toReturn;
 
         } catch (SQLException e) {
 
-            System.out.println("ERROR: Could not search for the given cars");
+            return "ERROR: Could not search for the given cars";
 
         } finally {
             if (conn != null) {
@@ -322,22 +336,30 @@ public class sqlConnections {
             }
 
         }
-        return null;
     }
 
-    public static String selectSale() throws SQLException {
-//        use sale id
+    public static String selectSale(int saleId) throws SQLException {
+
         try {
             establishConnectionToDatabase();
-            String query = "";
+            String query = "SELECT * FROM [FinalProject].[dbo].[Sales] s"
+                    + " Where s.SaleId = ?";
             pstmt = conn.prepareStatement(query);
 
-//            insert query shit here (use prepared statement)
-            return null;
+            pstmt.setInt(1, saleId);
+
+            ResultSet rs = pstmt.executeQuery();
+            String toReturn = stringQueryResults(rs);
+
+            if (toReturn.length() == 0) {
+                toReturn = "Unable to find any records";
+            }
+
+            return toReturn;
 
         } catch (SQLException e) {
 
-            System.out.println("ERROR: Could not search for the given sale");
+            return "ERROR: Could not search for the given sale";
 
         } finally {
             if (conn != null) {
@@ -349,22 +371,30 @@ public class sqlConnections {
             }
 
         }
-        return null;
     }
 
-    public static String selectDepartment() throws SQLException {
-//        uses department id
+    public static String selectDepartment(int deptId) throws SQLException {
+        
         try {
             establishConnectionToDatabase();
-            String query = "";
+            String query = "SELECT * FROM [FinalProject].[dbo].[Department] d"
+                    + " Where d.DeptId = ?";
             pstmt = conn.prepareStatement(query);
 
-//            insert query shit here (use prepared statement)
-            return null;
+            pstmt.setInt(1, deptId);
+
+            ResultSet rs = pstmt.executeQuery();
+            String toReturn = stringQueryResults(rs);
+
+            if (toReturn.length() == 0) {
+                toReturn = "Unable to find any records";
+            }
+
+            return toReturn;
 
         } catch (SQLException e) {
 
-            System.out.println("ERROR: Could not search for the given department");
+            return "ERROR: Could not search for the given department";
 
         } finally {
             if (conn != null) {
@@ -376,11 +406,16 @@ public class sqlConnections {
             }
 
         }
-        return null;
     }
 
     public static String inventoryReport() throws SQLException {
 //        count up # of cars by make, model, year and are available
+//        This one is gonna be a lot of work
+//        Make a map where the key is a concatanation of make model and year and value is the count for the car
+//        Get all the records from sql and check if available
+//        then check if key already exist (if it does increment that value) (if it does not, make it a key and increment the value)
+//        then make a string like follows Key: value for the whole map
+//        
         try {
             establishConnectionToDatabase();
             String query = "";
@@ -391,7 +426,7 @@ public class sqlConnections {
 
         } catch (SQLException e) {
 
-            System.out.println("ERROR: Could not complete inventory report");
+            return "ERROR: Could not complete inventory report";
 
         } finally {
             if (conn != null) {
@@ -403,7 +438,6 @@ public class sqlConnections {
             }
 
         }
-        return null;
     }
 
     public static String salesReport() throws SQLException {
@@ -419,7 +453,7 @@ public class sqlConnections {
 
         } catch (SQLException e) {
 
-            System.out.println("ERROR: Could not complete sales report");
+            return "ERROR: Could not complete sales report";
 
         } finally {
             if (conn != null) {
@@ -431,7 +465,6 @@ public class sqlConnections {
             }
 
         }
-        return null;
     }
 
 //------------------------------- Helper Methods Below    ------------------------------------------------------
@@ -451,25 +484,6 @@ public class sqlConnections {
     }
 
     /**
-     * Generalized method for executing queries
-     *
-     * @param s String containing the query
-     * @return Result set containing the data gathered by the query
-     * @throws SQLException
-     */
-    private static ResultSet executeQueryStatement(String s) throws SQLException {
-        try {
-            ResultSet rs;
-            rs = pstmt.executeQuery(s);
-            return rs;
-        } catch (SQLException e) {
-            System.out.println("ERROR: Query failed.");
-        }
-        // Only returns null in the event of an error
-        return null;
-    }
-
-    /**
      * Generalized method for displaying result set from a query
      *
      * @param rs The result set to display
@@ -479,19 +493,19 @@ public class sqlConnections {
 
         try {
             ResultSetMetaData rsmd = rs.getMetaData();
-            
+
             String toReturn = "";
 
             int numOfCols = rsmd.getColumnCount();
             while (rs.next()) {
                 for (int i = 1; i < numOfCols + 1; i++) {
-                    toReturn += (rsmd.getColumnLabel(i) + ": " + rs.getString(i)+ "   \n");
+                    toReturn += (rsmd.getColumnLabel(i) + ": " + rs.getString(i) + "   \n");
                 }
                 toReturn += "\n";
             }
-            
+
             return toReturn;
-            
+
         } catch (SQLException e) {
             return "ERROR: Could not display results";
         }
