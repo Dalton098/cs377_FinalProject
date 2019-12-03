@@ -154,18 +154,27 @@ public class sqlConnections {
 
         try {
             establishConnectionToDatabase();
-            String query = "";
+            String query = "Update [FinalProject].[dbo].[Car]"
+                    + " Set IsAvailable = ?"
+                    + " Where RegistrationNum = ?";
             pstmt = conn.prepareStatement(query);
             
             int availability = 0;
             if (isAvailable) {
                 availability = 1;
             }
+            
+            pstmt.setInt(1, availability);
+            pstmt.setInt(2, regNum);
+            
+            pstmt.executeUpdate();
+            
+            System.out.println("Update Successful");
 
 //            insert query shit here (use prepared statement)
         } catch (SQLException e) {
 
-            System.out.println("ERROR: Could not update availability");
+            System.out.println("ERROR: Could not update the given car's availability");
 
         } finally {
             if (conn != null) {
