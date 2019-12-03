@@ -26,7 +26,8 @@ Create Table Car (
     Make VARCHAR(50) NOT NULL,
     Model VARCHAR(50) NOT NULL,
     YearMade INT NOT NULL,
-    StickerPrice INT NOT NULL
+    StickerPrice INT NOT NULL,
+    IsAvailable BIT NOT NULL
 )
 
 -- EmployeeSsn is allowed to be null to prevent cascading deletes
@@ -43,9 +44,6 @@ Go
 
 Use [FinalProject]
 
-
-Insert Department, then employee, then car, then sales
-
 Insert Into Department Values ('Sales')
 Insert Into Department Values ('Human Resources')
 Insert Into Department Values ('Accounting')
@@ -59,12 +57,11 @@ Insert Into Employee Values (111227777, 'Bobbie', '2012-03-10', 70000, 3, 111224
 Insert Into Employee Values (111228888, 'Bobby', '2011-04-12', 50000, 1, 111223333)
 Insert Into Employee Values (111229999, 'Bobert', '2008-05-18', 45000, 3, 111224444)
 
-
-Insert Into Car Values (123, 'Honda', 'Civic LX', 2018, 18840)
-Insert Into Car Values (124, 'Honda', 'Civic EX', 2018, 20050)
-Insert Into Car Values (125, 'Subaru', 'Crosstrek', 2017, 27000)
-Insert Into Car Values (126, 'Subaru', 'Crosstrek Hybrid', 2017, 35000)
-Insert Into Car Values (127, 'Subaru', 'WRX', 2020, 29000)
-Insert Into Car Values (128, 'Subaru', 'WRX Limited', 2020, 32000)
+Insert Into Car Values (123, 'Honda', 'Civic LX', 2018, 18840, 1)
+Insert Into Car Values (124, 'Honda', 'Civic EX', 2018, 20050, 1)
+Insert Into Car Values (125, 'Subaru', 'Crosstrek', 2017, 27000, 1)
+Insert Into Car Values (126, 'Subaru', 'Crosstrek Hybrid', 2017, 35000, 1)
+Insert Into Car Values (127, 'Subaru', 'WRX', 2020, 29000, 1)
+Insert Into Car Values (128, 'Subaru', 'WRX Limited', 2020, 32000, 1)
 
 Go
