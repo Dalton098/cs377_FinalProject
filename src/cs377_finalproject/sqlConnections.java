@@ -156,7 +156,11 @@ public class sqlConnections {
             establishConnectionToDatabase();
             String query = "";
             pstmt = conn.prepareStatement(query);
-//            HAVE TO CAST BOOLEAN TO INT OF 0 OR 1 BECAUSE SQL USES BIT
+            
+            int availability = 0;
+            if (isAvailable) {
+                availability = 1;
+            }
 
 //            insert query shit here (use prepared statement)
         } catch (SQLException e) {
@@ -295,7 +299,7 @@ public class sqlConnections {
      * that car
      *
      * @param regNum The registration number of the car
-     * @return The information of the car
+     * @return The information related to the given car
      * @throws SQLException
      */
     public static String selectSpecificCar(int regNum) throws SQLException {
