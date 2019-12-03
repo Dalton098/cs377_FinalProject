@@ -78,7 +78,6 @@ public class sqlConnections {
             System.out.println("ERROR: Could not insert department");
 
         } finally {
-            stmt = conn.createStatement();
             if (conn != null) {
                 conn.close();
             }
@@ -269,21 +268,23 @@ public class sqlConnections {
         }
     }
 
-    public static String selectSpecificCar() throws SQLException {
-//        takes reg num
-
+    public static String selectSpecificCar(int regNum) throws SQLException {
+            
         try {
             establishConnectionToDatabase();
-            String query = "";
+            String query = "SELECT * FROM [FinalProject].[dbo].[Car] c"
+                    + " WHERE c.RegistrationNum = ?";
+            
             pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1, regNum);
+            
+            ResultSet rs = pstmt.executeQuery();
+            String toReturn = stringQueryResults(rs);
 
-//            insert query shit here (use prepared statement)
-            return null;
+            return toReturn;
 
         } catch (SQLException e) {
-
-            System.out.println("ERROR: Could not search for the given car");
-
+            return "ERROR: Could not search for the given car";
         } finally {
             if (conn != null) {
                 conn.close();
@@ -294,7 +295,6 @@ public class sqlConnections {
             }
 
         }
-        return null;
     }
 
     public static String selectCars() throws SQLException {
@@ -443,7 +443,7 @@ public class sqlConnections {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 //            Uncomment this to test (I am on linux so I have to use a different connection url
 //            String connectionUrl = "jdbc:sqlserver://localhost;integratedSecurity=true;";
-            String connectionUrl = "jdbc:sqlserver://localhost;databaseName=Dalton;integratedSecurity=false;user=sa;password=reallyStrongPwd123";
+            String connectionUrl = "jdbc:sqlserver://localhost;databaseName=FinalProject;integratedSecurity=false;user=sa;password=reallyStrongPwd123";
             conn = DriverManager.getConnection(connectionUrl);
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println("ERROR: Could not connect to the database.");
@@ -460,7 +460,7 @@ public class sqlConnections {
     private static ResultSet executeQueryStatement(String s) throws SQLException {
         try {
             ResultSet rs;
-            rs = stmt.executeQuery(s);
+            rs = pstmt.executeQuery(s);
             return rs;
         } catch (SQLException e) {
             System.out.println("ERROR: Query failed.");
@@ -475,21 +475,25 @@ public class sqlConnections {
      * @param rs The result set to display
      * @throws SQLException
      */
-    private static void displayQueryResults(ResultSet rs) throws SQLException {
+    private static String stringQueryResults(ResultSet rs) throws SQLException {
 
         try {
             ResultSetMetaData rsmd = rs.getMetaData();
+            
+            String toReturn = "";
 
             int numOfCols = rsmd.getColumnCount();
             while (rs.next()) {
                 for (int i = 1; i < numOfCols + 1; i++) {
-                    System.out.println((rsmd.getColumnLabel(i) + ": " + rs.getString(i)
-                            + "   "));
+                    toReturn += (rsmd.getColumnLabel(i) + ": " + rs.getString(i)+ "   \n");
                 }
-                System.out.println();
+                toReturn += "\n";
             }
+            
+            return toReturn;
+            
         } catch (SQLException e) {
-            System.out.println("ERROR: Could not display results");
+            return "ERROR: Could not display results";
         }
 
     }
