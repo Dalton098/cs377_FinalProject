@@ -216,7 +216,7 @@ public class sqlConnections {
 
         } catch (SQLException e) {
 
-            System.out.println("ERROR: Could not update the given car's availability");
+            System.out.println("ERROR: Could not update the given Employee's salary");
 
         } finally {
             if (conn != null) {
