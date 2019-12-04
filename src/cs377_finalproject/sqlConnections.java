@@ -158,17 +158,17 @@ public class sqlConnections {
                     + " Set IsAvailable = ?"
                     + " Where RegistrationNum = ?";
             pstmt = conn.prepareStatement(query);
-            
+
             int availability = 0;
             if (isAvailable) {
                 availability = 1;
             }
-            
+
             pstmt.setInt(1, availability);
             pstmt.setInt(2, regNum);
-            
+
             pstmt.executeUpdate();
-            
+
             System.out.println("Update Successful");
 
 //            insert query shit here (use prepared statement)
@@ -331,7 +331,7 @@ public class sqlConnections {
             return toReturn;
 
         } catch (SQLException e) {
-            return "ERROR: Could not search for the given car";
+            System.out.println("ERROR: Could not search for the given car");
         } finally {
             if (conn != null) {
                 conn.close();
@@ -342,6 +342,8 @@ public class sqlConnections {
             }
 
         }
+
+        return null;
     }
 
     /**
@@ -376,7 +378,7 @@ public class sqlConnections {
 
         } catch (SQLException e) {
 
-            return "ERROR: Could not search for the given cars";
+            System.out.println("ERROR: Could not search for the given cars");
 
         } finally {
             if (conn != null) {
@@ -388,6 +390,8 @@ public class sqlConnections {
             }
 
         }
+
+        return null;
     }
 
     /**
@@ -418,7 +422,7 @@ public class sqlConnections {
 
         } catch (SQLException e) {
 
-            return "ERROR: Could not search for the given sale";
+            System.out.println("ERROR: Could not search for the given sale");
 
         } finally {
             if (conn != null) {
@@ -430,6 +434,8 @@ public class sqlConnections {
             }
 
         }
+
+        return null;
     }
 
     /**
@@ -461,7 +467,7 @@ public class sqlConnections {
 
         } catch (SQLException e) {
 
-            return "ERROR: Could not search for the given department";
+            System.out.println("ERROR: Could not search for the given department");
 
         } finally {
             if (conn != null) {
@@ -473,6 +479,8 @@ public class sqlConnections {
             }
 
         }
+
+        return null;
     }
 
     public static String inventoryReport() throws SQLException {
@@ -493,7 +501,7 @@ public class sqlConnections {
 
         } catch (SQLException e) {
 
-            return "ERROR: Could not complete inventory report";
+            System.out.println("ERROR: Could not complete inventory report");
 
         } finally {
             if (conn != null) {
@@ -505,6 +513,8 @@ public class sqlConnections {
             }
 
         }
+
+        return null;
     }
 
     public static String salesReport() throws SQLException {
@@ -520,7 +530,7 @@ public class sqlConnections {
 
         } catch (SQLException e) {
 
-            return "ERROR: Could not complete sales report";
+            System.out.println("ERROR: Could not complete sales report");
 
         } finally {
             if (conn != null) {
@@ -532,6 +542,8 @@ public class sqlConnections {
             }
 
         }
+
+        return null;
     }
 
 //------------------------------- Helper Methods Below    ------------------------------------------------------
