@@ -49,8 +49,9 @@ Insert Into Department Values ('Human Resources')
 Insert Into Department Values ('Accounting')
 Insert Into Department Values ('Management')
 
-Insert Into Employee Values (111223333, 'Dalton', '2019-11-26', 70000, 4, Null)
-Insert Into Employee Values (111224444, 'Dave', '2018-10-26', 70000, 4, Null)
+-- Managers are their own manager's so their MgrSsn is their own
+Insert Into Employee Values (111223333, 'Dalton', '2019-11-26', 70000, 4, 111223333)
+Insert Into Employee Values (111224444, 'Dave', '2018-10-26', 70000, 4, 111224444)
 Insert Into Employee Values (111225555, 'Bob', '2019-12-26', 60000, 1, 111224444)
 Insert Into Employee Values (111226666, 'Bobb', '2010-02-07', 65000, 2, 111223333)
 Insert Into Employee Values (111227777, 'Bobbie', '2012-03-10', 70000, 3, 111224444)

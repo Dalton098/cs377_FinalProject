@@ -91,19 +91,32 @@ public class sqlConnections {
 
     }
 
-    public static void updateSale() throws SQLException {
-//        changes sale price and date
-//        could overload to take price, date, or price and date
+    /**
+     * Updates the sale price of a given sale
+     *
+     * @param saleId The id of the sale to be updated
+     * @param salePrice The new sale price of the sale
+     * @throws SQLException
+     */
+    public static void updateSalePrice(int saleId, int salePrice) throws SQLException {
 
         try {
             establishConnectionToDatabase();
-            String query = "";
+            String query = "Update [FinalProject].[dbo].[Sales]"
+                    + " Set SalePrice = ?"
+                    + " Where SaleId = ?";
             pstmt = conn.prepareStatement(query);
 
-//            insert query shit here (use prepared statement)
+            pstmt.setInt(1, salePrice);
+            pstmt.setInt(2, saleId);
+
+            pstmt.executeUpdate();
+
+            System.out.println("Update Successful\n");
+
         } catch (SQLException e) {
 
-            System.out.println("ERROR: Could not update sale");
+            System.out.println("ERROR: Could not update the given sale's sale price");
 
         } finally {
             if (conn != null) {
@@ -117,23 +130,43 @@ public class sqlConnections {
         }
     }
 
-    public static void updateEmployeeInfo() throws SQLException {
-//        vague as fuck not sure what to do with this
-//        could take in array with the names and array with values or something
-//        probably just make this only update their manager cause i am lazy but
-//        but then you have to check that the ssn exist before updating
-//        use the selectEmployee method to check if it returns "" or null
-//        because then the manager wouldnt exist
+    /**
+     * Updates the given employee's manager to be the new manager
+     *
+     * @param employeeSsn The ssn of the employee who is having their manager
+     * changed
+     * @param managerSsn The ssn of the new manager
+     * @throws SQLException
+     */
+    public static void updateEmployeeManager(int employeeSsn, int managerSsn) throws SQLException {
 
         try {
-            establishConnectionToDatabase();
-            String query = "";
-            pstmt = conn.prepareStatement(query);
 
-//            insert query shit here (use prepared statement)
+            String temp = selectEmployee(managerSsn);
+
+            // Checking to see if the manager exist
+            boolean isValidManager = temp != null || temp.length() != 0;
+
+            if (isValidManager) {
+                establishConnectionToDatabase();
+                String query = "Update [FinalProject].[dbo].[Employee]"
+                        + " Set MgrSsn = ?"
+                        + " Where Ssn = ?";
+                pstmt = conn.prepareStatement(query);
+
+                pstmt.setInt(1, managerSsn);
+                pstmt.setInt(2, employeeSsn);
+
+                pstmt.executeUpdate();
+
+                System.out.println("Update Successful");
+            } else {
+                System.out.println("Invalid Manager SSN: The manager does not exist");
+            }
+
         } catch (SQLException e) {
 
-            System.out.println("ERROR: Could not update employee info");
+            System.out.println("ERROR: Could not update the given employee's manager");
 
         } finally {
             if (conn != null) {
@@ -216,7 +249,7 @@ public class sqlConnections {
 
         } catch (SQLException e) {
 
-            System.out.println("ERROR: Could not update the given Employee's salary");
+            System.out.println("ERROR: Could not update the given employee's salary");
 
         } finally {
             if (conn != null) {
@@ -237,18 +270,25 @@ public class sqlConnections {
      * @param name The new name for the department
      * @throws SQLException
      */
-    public static void updateDepartment(int deptId, String name) throws SQLException {
-//        only changes name
+    public static void updateDepartmentName(int deptId, String name) throws SQLException {
 
         try {
             establishConnectionToDatabase();
-            String query = "";
+            String query = "Update [FinalProject].[dbo].[Department]"
+                    + " Set Dname = ?"
+                    + " Where DeptId = ?";
             pstmt = conn.prepareStatement(query);
 
-//            insert query shit here (use prepared statement)
+            pstmt.setString(1, name);
+            pstmt.setInt(2, deptId);
+
+            pstmt.executeUpdate();
+
+            System.out.println("Update Successful\n");
+
         } catch (SQLException e) {
 
-            System.out.println("ERROR: Could not update department");
+            System.out.println("ERROR: Could not update the given department's name");
 
         } finally {
             if (conn != null) {
@@ -272,7 +312,7 @@ public class sqlConnections {
 //            insert query shit here (use prepared statement)
         } catch (SQLException e) {
 
-            System.out.println("ERROR: Could not delete Employee");
+            System.out.println("ERROR: Could not delete the given employee");
 
         } finally {
             if (conn != null) {
@@ -300,7 +340,7 @@ public class sqlConnections {
 //            insert query shit here (use prepared statement)
         } catch (SQLException e) {
 
-            System.out.println("ERROR: Could not delete department");
+            System.out.println("ERROR: Could not delete the given department");
 
         } finally {
             if (conn != null) {
