@@ -305,25 +305,25 @@ public class sqlConnections {
 
         }
     }
-    
-        /**
-     * Takes the social security number of an employee and returns the info pertaining to
-     * that employee
+
+    /**
+     * Takes the social security number of an employee and returns the info
+     * pertaining to that employee
      *
      * @param ssn The social security number of the employee
-     * @return The information related to the given employee, returns "" if no records
-     * and returns null if an exception occurs
+     * @return The information related to the given employee, returns "" if no
+     * records and returns null if an exception occurs
      * @throws SQLException
      */
     public static String selectEmployee(int ssn) throws SQLException {
 
         try {
             establishConnectionToDatabase();
-            String query = "SELECT * FROM [FinalProject].[dbo].[Car] c"
-                    + " WHERE c.RegistrationNum = ?";
+            String query = "SELECT * FROM [FinalProject].[dbo].[Employee] e"
+                    + " WHERE e.Ssn = ?";
 
             pstmt = conn.prepareStatement(query);
-            pstmt.setInt(1, regNum);
+            pstmt.setInt(1, ssn);
 
             ResultSet rs = pstmt.executeQuery();
             String toReturn = stringQueryResults(rs);
@@ -346,14 +346,13 @@ public class sqlConnections {
         return null;
     }
 
-
     /**
      * Takes a specific registration number and returns the info pertaining to
      * that car
      *
      * @param regNum The registration number of the car
-     * @return The information related to the given car, returns "" if no records
-     * and returns null if an exception occurs
+     * @return The information related to the given car, returns "" if no
+     * records and returns null if an exception occurs
      * @throws SQLException
      */
     public static String selectSpecificCar(int regNum) throws SQLException {
@@ -393,8 +392,8 @@ public class sqlConnections {
      * @param make The make of the car
      * @param model The model of the car
      * @param year The year of the car
-     * @return The cars that matched on make, model, and year, returns "" if no matches
-     * and returns null if an exception occurs
+     * @return The cars that matched on make, model, and year, returns "" if no
+     * matches and returns null if an exception occurs
      * @throws SQLException
      */
     public static String selectCars(String make, String model, int year) throws SQLException {
@@ -436,8 +435,8 @@ public class sqlConnections {
      * Takes in a saleId and returns the info pertaining to the sale
      *
      * @param saleId The id of the sale to be looked for
-     * @return A string containing the information from the sale, returns "" if no records
-     * and returns null if an exception occurs
+     * @return A string containing the information from the sale, returns "" if
+     * no records and returns null if an exception occurs
      * @throws SQLException
      */
     public static String selectSale(int saleId) throws SQLException {
@@ -478,8 +477,8 @@ public class sqlConnections {
      * department
      *
      * @param deptId The id of the department
-     * @return The name and deptId of the department, returns "" if no department matches,
-     * and returns null if an exception occurs
+     * @return The name and deptId of the department, returns "" if no
+     * department matches, and returns null if an exception occurs
      * @throws SQLException
      */
     public static String selectDepartment(int deptId) throws SQLException {
