@@ -12,6 +12,7 @@ Create Table Department (
 )
 
 -- DeptId and MgrSsn are allowed to be null to prevent cascading deletes
+-- Managers are their own managers so their MgrSsn is their own Ssn
 Create Table Employee (
     Ssn INT PRIMARY KEY NOT NULL,
     EmpName VARCHAR(50) NOT NULL,
