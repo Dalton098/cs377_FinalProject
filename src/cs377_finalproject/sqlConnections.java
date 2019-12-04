@@ -3,13 +3,14 @@ package cs377_finalproject;
 import java.sql.*;
 
 /**
+ * sqlConnections for the front end
  *
- * @author daltonrothenberger
+ * Types of connections/Queries include: Inserts, Deletes, Updates, Selects, and
+ * Reports
  */
 public class sqlConnections {
 
     private static Connection conn;
-//    private static Statement stmt;
     private static PreparedStatement pstmt;
 
     public static void insertCar() throws SQLException {
@@ -119,6 +120,10 @@ public class sqlConnections {
     public static void updateEmployeeInfo() throws SQLException {
 //        vague as fuck not sure what to do with this
 //        could take in array with the names and array with values or something
+//        probably just make this only update their manager cause i am lazy but
+//        but then you have to check that the ssn exist before updating
+//        use the selectEmployee method to check if it returns "" or null
+//        because then the manager wouldnt exist
 
         try {
             establishConnectionToDatabase();
@@ -150,7 +155,6 @@ public class sqlConnections {
      * @throws SQLException
      */
     public static void updateCarAvailability(int regNum, boolean isAvailable) throws SQLException {
-//        only changes availability bit value
 
         try {
             establishConnectionToDatabase();
@@ -171,7 +175,6 @@ public class sqlConnections {
 
             System.out.println("Update Successful");
 
-//            insert query shit here (use prepared statement)
         } catch (SQLException e) {
 
             System.out.println("ERROR: Could not update the given car's availability");
@@ -302,13 +305,55 @@ public class sqlConnections {
 
         }
     }
+    
+        /**
+     * Takes the social security number of an employee and returns the info pertaining to
+     * that employee
+     *
+     * @param ssn The social security number of the employee
+     * @return The information related to the given employee, returns "" if no records
+     * and returns null if an exception occurs
+     * @throws SQLException
+     */
+    public static String selectEmployee(int ssn) throws SQLException {
+
+        try {
+            establishConnectionToDatabase();
+            String query = "SELECT * FROM [FinalProject].[dbo].[Car] c"
+                    + " WHERE c.RegistrationNum = ?";
+
+            pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1, regNum);
+
+            ResultSet rs = pstmt.executeQuery();
+            String toReturn = stringQueryResults(rs);
+
+            return toReturn;
+
+        } catch (SQLException e) {
+            System.out.println("ERROR: Could not search for the given car");
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+
+            if (pstmt != null) {
+                pstmt.close();
+            }
+
+        }
+
+        return null;
+    }
+
 
     /**
      * Takes a specific registration number and returns the info pertaining to
      * that car
      *
      * @param regNum The registration number of the car
-     * @return The information related to the given car
+     * @return The information related to the given car, returns "" if no records
+     * and returns null if an exception occurs
      * @throws SQLException
      */
     public static String selectSpecificCar(int regNum) throws SQLException {
@@ -323,10 +368,6 @@ public class sqlConnections {
 
             ResultSet rs = pstmt.executeQuery();
             String toReturn = stringQueryResults(rs);
-
-            if (toReturn.length() == 0) {
-                toReturn = "Unable to find any records";
-            }
 
             return toReturn;
 
@@ -352,7 +393,8 @@ public class sqlConnections {
      * @param make The make of the car
      * @param model The model of the car
      * @param year The year of the car
-     * @return The cars that matched on make, model, and year
+     * @return The cars that matched on make, model, and year, returns "" if no matches
+     * and returns null if an exception occurs
      * @throws SQLException
      */
     public static String selectCars(String make, String model, int year) throws SQLException {
@@ -369,10 +411,6 @@ public class sqlConnections {
 
             ResultSet rs = pstmt.executeQuery();
             String toReturn = stringQueryResults(rs);
-
-            if (toReturn.length() == 0) {
-                toReturn = "Unable to find any records";
-            }
 
             return toReturn;
 
@@ -398,7 +436,8 @@ public class sqlConnections {
      * Takes in a saleId and returns the info pertaining to the sale
      *
      * @param saleId The id of the sale to be looked for
-     * @return A string containing the information from the sale
+     * @return A string containing the information from the sale, returns "" if no records
+     * and returns null if an exception occurs
      * @throws SQLException
      */
     public static String selectSale(int saleId) throws SQLException {
@@ -413,10 +452,6 @@ public class sqlConnections {
 
             ResultSet rs = pstmt.executeQuery();
             String toReturn = stringQueryResults(rs);
-
-            if (toReturn.length() == 0) {
-                toReturn = "Unable to find any records";
-            }
 
             return toReturn;
 
@@ -443,7 +478,8 @@ public class sqlConnections {
      * department
      *
      * @param deptId The id of the department
-     * @return The name and deptId of the department
+     * @return The name and deptId of the department, returns "" if no department matches,
+     * and returns null if an exception occurs
      * @throws SQLException
      */
     public static String selectDepartment(int deptId) throws SQLException {
