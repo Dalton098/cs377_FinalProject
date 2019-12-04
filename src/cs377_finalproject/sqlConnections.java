@@ -199,16 +199,24 @@ public class sqlConnections {
      * @throws SQLException
      */
     public static void updateSalary(int employeeSsn, int salary) throws SQLException {
-//    only changes salary    
+
         try {
             establishConnectionToDatabase();
-            String query = "";
+            String query = "Update [FinalProject].[dbo].[Employee]"
+                    + " Set Salary = ?"
+                    + " Where Ssn = ?";
             pstmt = conn.prepareStatement(query);
 
-//            insert query shit here (use prepared statement)
+            pstmt.setInt(1, salary);
+            pstmt.setInt(2, employeeSsn);
+
+            pstmt.executeUpdate();
+
+            System.out.println("Update Successful\n");
+
         } catch (SQLException e) {
 
-            System.out.println("ERROR: Could not update salary");
+            System.out.println("ERROR: Could not update the given car's availability");
 
         } finally {
             if (conn != null) {
