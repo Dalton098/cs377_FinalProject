@@ -11,6 +11,18 @@ public class Cs377_FinalProject {
 
     public static void main(String[] args) throws SQLException {
         
+        Scanner input = new Scanner(System.in);
+        
+        boolean closed = false;
+        
+        while (!closed){
+            if(input.next().equals("close")){
+                closed = true;
+            }
+        }
+        
+        input.close();
+        
         // select
         // selects done
         
@@ -26,13 +38,13 @@ public class Cs377_FinalProject {
         // reports need to be done as well
         // bit more complex than the other queries
 
-//       sqlConnections.updateCarAvailability(123, false);
-//        System.out.println(sqlConnections.selectEmployee(111223333));
-//        sqlConnections.updateSalary(111223333, 70000);
-//        System.out.println(sqlConnections.selectEmployee(111223333));
-//        System.out.println(sqlConnections.selectDepartment(1));
-//        sqlConnections.updateDepartmentName(1, "Sales");
-//        System.out.println(sqlConnections.selectDepartment(1));
+//      sqlConnections.updateCarAvailability(123, false);
+//      System.out.println(sqlConnections.selectEmployee(111223333));
+//      sqlConnections.updateSalary(111223333, 70000);
+//      System.out.println(sqlConnections.selectEmployee(111223333));
+//      System.out.println(sqlConnections.selectDepartment(1));
+//      sqlConnections.updateDepartmentName(1, "Sales");
+//      System.out.println(sqlConnections.selectDepartment(1));
         System.out.println(sqlConnections.selectEmployee(111223333));
         sqlConnections.updateEmployeeManager(111223333, 111223333);
         System.out.println(sqlConnections.selectEmployee(111223333));
