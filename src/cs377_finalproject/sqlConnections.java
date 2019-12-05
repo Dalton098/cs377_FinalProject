@@ -101,18 +101,30 @@ public class sqlConnections {
     public static void updateSalePrice(int saleId, int salePrice) throws SQLException {
 
         try {
-            establishConnectionToDatabase();
-            String query = "Update [FinalProject].[dbo].[Sales]"
-                    + " Set SalePrice = ?"
-                    + " Where SaleId = ?";
-            pstmt = conn.prepareStatement(query);
 
-            pstmt.setInt(1, salePrice);
-            pstmt.setInt(2, saleId);
+            String temp = selectSale(saleId);
 
-            pstmt.executeUpdate();
+            // Checking to see if the sale exist
+            boolean isValidSale = temp != null || temp.length() != 0;
 
-            System.out.println("Update Successful\n");
+            if (isValidSale) {
+
+                establishConnectionToDatabase();
+                String query = "Update [FinalProject].[dbo].[Sales]"
+                        + " Set SalePrice = ?"
+                        + " Where SaleId = ?";
+                pstmt = conn.prepareStatement(query);
+
+                pstmt.setInt(1, salePrice);
+                pstmt.setInt(2, saleId);
+
+                pstmt.executeUpdate();
+
+                System.out.println("Update Successful\n");
+
+            } else {
+                System.out.println("Invalid Sale ID, update failed");
+            }
 
         } catch (SQLException e) {
 
@@ -142,12 +154,16 @@ public class sqlConnections {
 
         try {
 
-            String temp = selectEmployee(managerSsn);
+            String temp1 = selectEmployee(managerSsn);
+            String temp2 = selectEmployee(employeeSsn);
 
             // Checking to see if the manager exist
-            boolean isValidManager = temp != null || temp.length() != 0;
+            boolean isValidManager = temp1 != null || temp1.length() != 0;
 
-            if (isValidManager) {
+            // Checking to see if the employee exist
+            boolean isValidEmployee = temp2 != null || temp2.length() != 0;
+
+            if (isValidManager && isValidEmployee) {
                 establishConnectionToDatabase();
                 String query = "Update [FinalProject].[dbo].[Employee]"
                         + " Set MgrSsn = ?"
@@ -161,7 +177,7 @@ public class sqlConnections {
 
                 System.out.println("Update Successful");
             } else {
-                System.out.println("Invalid Manager SSN: The manager does not exist");
+                System.out.println("Invalid Employee/Manager SSN, update failed");
             }
 
         } catch (SQLException e) {
@@ -190,23 +206,35 @@ public class sqlConnections {
     public static void updateCarAvailability(int regNum, boolean isAvailable) throws SQLException {
 
         try {
-            establishConnectionToDatabase();
-            String query = "Update [FinalProject].[dbo].[Car]"
-                    + " Set IsAvailable = ?"
-                    + " Where RegistrationNum = ?";
-            pstmt = conn.prepareStatement(query);
 
-            int availability = 0;
-            if (isAvailable) {
-                availability = 1;
+            String temp = selectSpecificCar(regNum);
+
+            // Checking to see if the car exist
+            boolean isValidCar = temp != null || temp.length() != 0;
+
+            if (isValidCar) {
+
+                establishConnectionToDatabase();
+                String query = "Update [FinalProject].[dbo].[Car]"
+                        + " Set IsAvailable = ?"
+                        + " Where RegistrationNum = ?";
+                pstmt = conn.prepareStatement(query);
+
+                int availability = 0;
+                if (isAvailable) {
+                    availability = 1;
+                }
+
+                pstmt.setInt(1, availability);
+                pstmt.setInt(2, regNum);
+
+                pstmt.executeUpdate();
+
+                System.out.println("Update Successful");
+
+            } else {
+                System.out.println("Invalid Registration Number, update failed");
             }
-
-            pstmt.setInt(1, availability);
-            pstmt.setInt(2, regNum);
-
-            pstmt.executeUpdate();
-
-            System.out.println("Update Successful");
 
         } catch (SQLException e) {
 
@@ -234,18 +262,29 @@ public class sqlConnections {
     public static void updateSalary(int employeeSsn, int salary) throws SQLException {
 
         try {
-            establishConnectionToDatabase();
-            String query = "Update [FinalProject].[dbo].[Employee]"
-                    + " Set Salary = ?"
-                    + " Where Ssn = ?";
-            pstmt = conn.prepareStatement(query);
 
-            pstmt.setInt(1, salary);
-            pstmt.setInt(2, employeeSsn);
+            String temp = selectEmployee(employeeSsn);
 
-            pstmt.executeUpdate();
+            // Checking to see if the employee exist
+            boolean isValidEmployee = temp != null || temp.length() != 0;
 
-            System.out.println("Update Successful\n");
+            if (isValidEmployee) {
+
+                establishConnectionToDatabase();
+                String query = "Update [FinalProject].[dbo].[Employee]"
+                        + " Set Salary = ?"
+                        + " Where Ssn = ?";
+                pstmt = conn.prepareStatement(query);
+
+                pstmt.setInt(1, salary);
+                pstmt.setInt(2, employeeSsn);
+
+                pstmt.executeUpdate();
+
+                System.out.println("Update Successful\n");
+            } else {
+                System.out.println("Invalid Employee SSN, update failed");
+            }
 
         } catch (SQLException e) {
 
@@ -273,18 +312,30 @@ public class sqlConnections {
     public static void updateDepartmentName(int deptId, String name) throws SQLException {
 
         try {
-            establishConnectionToDatabase();
-            String query = "Update [FinalProject].[dbo].[Department]"
-                    + " Set Dname = ?"
-                    + " Where DeptId = ?";
-            pstmt = conn.prepareStatement(query);
 
-            pstmt.setString(1, name);
-            pstmt.setInt(2, deptId);
+            String temp = selectDepartment(deptId);
 
-            pstmt.executeUpdate();
+            // Checking to see if the department exist
+            boolean isValidDepartment = temp != null || temp.length() != 0;
 
-            System.out.println("Update Successful\n");
+            if (isValidDepartment) {
+
+                establishConnectionToDatabase();
+                String query = "Update [FinalProject].[dbo].[Department]"
+                        + " Set Dname = ?"
+                        + " Where DeptId = ?";
+                pstmt = conn.prepareStatement(query);
+
+                pstmt.setString(1, name);
+                pstmt.setInt(2, deptId);
+
+                pstmt.executeUpdate();
+
+                System.out.println("Update Successful\n");
+
+            } else {
+                System.out.println("Invalid Department ID, update failed");
+            }
 
         } catch (SQLException e) {
 
