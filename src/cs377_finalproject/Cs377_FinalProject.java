@@ -35,13 +35,13 @@ public class Cs377_FinalProject {
         // delete
         // deletes need to be done (does not have prequery checks done look at inserts)
 
-//       sqlConnections.updateCarAvailability(123, false);
-//        System.out.println(sqlConnections.selectEmployee(111223333));
-//        sqlConnections.updateSalary(111223333, 70000);
-//        System.out.println(sqlConnections.selectEmployee(111223333));
-//        System.out.println(sqlConnections.selectDepartment(1));
-//        sqlConnections.updateDepartmentName(1, "Sales");
-//        System.out.println(sqlConnections.selectDepartment(1));
+//      sqlConnections.updateCarAvailability(123, false);
+//      System.out.println(sqlConnections.selectEmployee(111223333));
+//      sqlConnections.updateSalary(111223333, 70000);
+//      System.out.println(sqlConnections.selectEmployee(111223333));
+//      System.out.println(sqlConnections.selectDepartment(1));
+//      sqlConnections.updateDepartmentName(1, "Sales");
+//      System.out.println(sqlConnections.selectDepartment(1));
         System.out.println(sqlConnections.selectEmployee(111223333));
         sqlConnections.updateEmployeeManager(111223333, 111223333);
         System.out.println(sqlConnections.selectEmployee(111223333));
