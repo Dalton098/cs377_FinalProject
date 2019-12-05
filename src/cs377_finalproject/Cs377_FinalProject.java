@@ -22,6 +22,9 @@ public class Cs377_FinalProject {
         
         // delete
         // deletes need to be done (does not have prequery checks done look at inserts)
+        
+        // reports need to be done as well
+        // bit more complex than the other queries
 
 //       sqlConnections.updateCarAvailability(123, false);
 //        System.out.println(sqlConnections.selectEmployee(111223333));
