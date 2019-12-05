@@ -11,6 +11,18 @@ public class Cs377_FinalProject {
 
     public static void main(String[] args) throws SQLException {
         
+        Scanner input = new Scanner(System.in);
+        
+        boolean closed = false;
+        
+        while (!closed){
+            if(input.next().equals("close")){
+                closed = true;
+            }
+        }
+        
+        input.close();
+        
         // select
         
         // insert
