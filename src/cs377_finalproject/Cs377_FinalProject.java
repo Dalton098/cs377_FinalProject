@@ -10,6 +10,14 @@ import java.util.Scanner;
 public class Cs377_FinalProject {
 
     public static void main(String[] args) throws SQLException {
+        
+        // select
+        
+        // insert
+        
+        // update
+        
+        // delete
 
 //       sqlConnections.updateCarAvailability(123, false);
 //        System.out.println(sqlConnections.selectEmployee(111223333));
