@@ -1,6 +1,7 @@
 package cs377_finalproject;
 
 import java.sql.*;
+import java.util.regex.Pattern;
 
 /**
  * sqlConnections for the front end
@@ -13,15 +14,27 @@ public class sqlConnections {
     private static Connection conn;
     private static PreparedStatement pstmt;
 
-    public static void insertCar() throws SQLException {
+    public static void insertCar(int regNum, String make, String model, int year, int price) throws SQLException {
 
         //        regnum, make, model, year, sticker price
         try {
-            establishConnectionToDatabase();
-            String query = "";
-            pstmt = conn.prepareStatement(query);
 
-//            insert query shit here (use prepared statement)
+            String temp = selectSpecificCar(regNum);
+
+            boolean isNewCar = temp == null || temp.length() == 0;
+
+            if (isNewCar) {
+
+                establishConnectionToDatabase();
+                String query = "";
+                pstmt = conn.prepareStatement(query);
+
+                System.out.println("Insert Successful");
+
+            } else {
+                System.out.println("A car with that registration number already exist, insert failed");
+            }
+
         } catch (Exception e) {
 
             System.out.println("ERROR: Could not insert car");
@@ -39,13 +52,29 @@ public class sqlConnections {
 
     }
 
-    public static void insertSale() throws SQLException {
+    public static void insertSale(int regNum, int salePrice, int employeeSsn, String date) throws SQLException {
 //        needs reg num, sale price, employee ssn, date
+//        check employee is valid and that the date is in proper format yyyy-mm-dd
 
         try {
-            establishConnectionToDatabase();
-            String query = "";
-            pstmt = conn.prepareStatement(query);
+
+            String temp = selectEmployee(employeeSsn);
+
+            // Checking to see if the manager exist
+            boolean isValidEmployee = temp != null || temp.length() != 0;
+            
+            
+            // Checking if valid date
+            boolean isValidDate = Pattern.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}", date);
+
+            if (isValidEmployee && isValidDate) {
+
+                establishConnectionToDatabase();
+                String query = "";
+                pstmt = conn.prepareStatement(query);
+            } else {
+                System.out.println("Invalid Employee SSN or date format");
+            }
 
 //            insert query shit here (use prepared statement)
         } catch (Exception e) {
@@ -65,7 +94,7 @@ public class sqlConnections {
 
     }
 
-    public static void insertDepartment() throws SQLException {
+    public static void insertDepartment(String deptName) throws SQLException {
 //        needs department name
 
         try {
