@@ -24,12 +24,16 @@ public class Cs377_FinalProject {
         input.close();
         
         // select
+        // selects done
         
         // insert
+        // inserts need to be done (have prequery checks down tho)
         
         // update
+        // updates done
         
         // delete
+        // deletes need to be done (does not have prequery checks done look at inserts)
 
 //       sqlConnections.updateCarAvailability(123, false);
 //        System.out.println(sqlConnections.selectEmployee(111223333));

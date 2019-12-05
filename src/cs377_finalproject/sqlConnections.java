@@ -382,7 +382,7 @@ public class sqlConnections {
         }
     }
 
-    public static void deleteEmployee() throws SQLException {
+    public static void deleteEmployee(int employeeSsn) throws SQLException {
 //        i think this will automatically handle setting null to people who use the deleteed employee as a manager
         try {
             establishConnectionToDatabase();
@@ -409,7 +409,7 @@ public class sqlConnections {
 //    public static void deleteCar() {
 ////        might not need this because then will have to delete the sale
 //    }
-    public static void deleteDepartment() throws SQLException {
+    public static void deleteDepartment(int deptId) throws SQLException {
 //        should automatically set employees in this department to have a null deptid
 
         try {
