@@ -690,7 +690,7 @@ public class sqlConnections {
 //            Uncomment this to test (I am on linux so I have to use a different connection url
 //            String connectionUrl = "jdbc:sqlserver://localhost;integratedSecurity=true;";
             String connectionUrl = "jdbc:sqlserver://localhost;databaseName=FinalProject;integratedSecurity=false;user=sa;password=reallyStrongPwd123";
-            if(System.getProperty("os.name").equals("Windows")){
+            if(System.getProperty("os.name").equals("Windows 10")){
                 connectionUrl = "jdbc:sqlserver://localhost;integratedSecurity=true;";
             }
             conn = DriverManager.getConnection(connectionUrl);
