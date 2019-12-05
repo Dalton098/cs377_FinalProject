@@ -430,7 +430,7 @@ public class sqlConnections {
             return toReturn;
 
         } catch (SQLException e) {
-            System.out.println("ERROR: Could not search for the given car");
+            System.out.println("ERROR: Could not search for the given employee");
         } finally {
             if (conn != null) {
                 conn.close();
