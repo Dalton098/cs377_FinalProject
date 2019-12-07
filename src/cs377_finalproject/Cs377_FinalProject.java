@@ -14,17 +14,6 @@ public class Cs377_FinalProject {
 
     public static void main(String[] args) throws SQLException {
 
-//        Scanner input = new Scanner(System.in);
-//        
-//        boolean closed = false;
-//        
-//        while (!closed){
-//            if(input.next().equals("close")){
-//                closed = true;
-//            }
-//        }
-//        
-//        input.close();
 //        
         // select
         // selects done
@@ -47,16 +36,65 @@ public class Cs377_FinalProject {
 //        sqlConnections.updateEmployeeManager(111223333, 111223333);
 //        System.out.println(sqlConnections.selectEmployee(111223333));
         System.out.println("Welcome to SellCars' interactive database system."
-                + "\nBelow you will see possible query options.\n");
+                + "\nBelow you will see possible query options.");
 
         int input = -2;
 
         while (input != -1) {
             String[] opt1 = {"Insert query", "Update query", "Delete query", "Select query", "Reports"};
             input = readMenuInput(opt1);
+
+            // reset input to -2 so that menu reappears after query is done
+            switch (input) {
+                case 0:
+                    insertHandler();
+                    input = -2;
+                    break;
+                case 1:
+                    updateHandler();
+                    input = -2;
+                    break;
+                case 2:
+                    deleteHandler();
+                    input = -2;
+                    break;
+                case 3:
+                    selectHandler();
+                    input = -2;
+                    break;
+                case 4:
+                    reportHandler();
+                    input = -2;
+                    break;
+            }
+
         }
 
         in.close();
+
+    }
+
+    public static void insertHandler() {
+        System.out.println("insert");
+    }
+
+    public static void updateHandler() {
+        System.out.println("update");
+
+    }
+
+    public static void deleteHandler() {
+        System.out.println("delete");
+
+    }
+
+    public static void selectHandler() {
+        System.out.println("select");
+
+    }
+
+    public static void reportHandler() {
+        System.out.println("report");
 
     }
 
@@ -67,6 +105,9 @@ public class Cs377_FinalProject {
 
         String tempInput = "";
         int input = -2;
+
+        // spacing
+        System.out.print("\n");
 
         do {
 
@@ -87,7 +128,9 @@ public class Cs377_FinalProject {
 
             }
 
-            isError = true;
+            if (input != -3) {
+                isError = true;
+            }
 
         } while (!isValidInput);
 
