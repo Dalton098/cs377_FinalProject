@@ -9,6 +9,9 @@ import java.util.Scanner;
  */
 public class Cs377_FinalProject {
 
+    // Needs to be global because if it is closed the System.in itself is closed too
+    public static Scanner in = new Scanner(System.in);
+
     public static void main(String[] args) throws SQLException {
 
 //        Scanner input = new Scanner(System.in);
@@ -43,8 +46,17 @@ public class Cs377_FinalProject {
 //        System.out.println(sqlConnections.selectEmployee(111223333));
 //        sqlConnections.updateEmployeeManager(111223333, 111223333);
 //        System.out.println(sqlConnections.selectEmployee(111223333));
-        String[] opt1 = {"yeet", "tert"};
-        System.out.println(readMenuInput(opt1));
+        System.out.println("Welcome to SellCars' interactive database system."
+                + "\nBelow you will see possible query options.\n");
+
+        int input = -2;
+
+        while (input != -1) {
+            String[] opt1 = {"Insert query", "Update query", "Delete query", "Select query", "Reports"};
+            input = readMenuInput(opt1);
+        }
+
+        in.close();
 
     }
 
@@ -55,8 +67,6 @@ public class Cs377_FinalProject {
 
         String tempInput = "";
         int input = -2;
-
-        Scanner in = new Scanner(System.in);
 
         do {
 
@@ -80,8 +90,6 @@ public class Cs377_FinalProject {
             isError = true;
 
         } while (!isValidInput);
-
-        in.close();
 
         return input;
     }
