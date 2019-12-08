@@ -1,5 +1,6 @@
 package cs377_finalproject;
 
+import java.lang.reflect.*;  
 import java.sql.*;
 import java.util.Scanner;
 
@@ -8,7 +9,7 @@ import java.util.Scanner;
  * @author daltonrothenberger
  */
 public class Cs377_FinalProject {
-
+    
     public static void main(String[] args) throws SQLException {
         
         Scanner input = new Scanner(System.in);
