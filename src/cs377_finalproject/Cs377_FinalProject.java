@@ -1,6 +1,5 @@
 package cs377_finalproject;
 
-import java.lang.reflect.*;  
 import java.sql.*;
 import java.util.Scanner;
 
@@ -9,17 +8,12 @@ import java.util.Scanner;
  * @author daltonrothenberger
  */
 public class Cs377_FinalProject {
-<<<<<<< HEAD
-    
-=======
 
     // Needs to be global because if it is closed the System.in itself is closed too
     public static Scanner in = new Scanner(System.in);
 
->>>>>>> b10963cbdd9c13a37809f4a5962e3bd7ecc6a103
     public static void main(String[] args) throws SQLException {
 
-//        
         // select
         // selects done
         // insert
@@ -36,10 +30,11 @@ public class Cs377_FinalProject {
 //      System.out.println(sqlConnections.selectEmployee(111223333));
 //      System.out.println(sqlConnections.selectDepartment(1));
 //      sqlConnections.updateDepartmentName(1, "Sales");
-////      System.out.println(sqlConnections.selectDepartment(1));
-//        System.out.println(sqlConnections.selectEmployee(111223333));
-//        sqlConnections.updateEmployeeManager(111223333, 111223333);
-//        System.out.println(sqlConnections.selectEmployee(111223333));
+////    System.out.println(sqlConnections.selectDepartment(1));
+//      System.out.println(sqlConnections.selectEmployee(111223333));
+//      sqlConnections.updateEmployeeManager(111223333, 111223333);
+//      System.out.println(sqlConnections.selectEmployee(111223333));
+        
         System.out.println("Welcome to SellCars' interactive database system."
                 + "\nBelow you will see possible query options.");
 
@@ -81,6 +76,32 @@ public class Cs377_FinalProject {
 
     public static void insertHandler() {
         System.out.println("insert");
+        
+        String[] opt1 = {"Insert query", "Update query", "Delete query", "Select query", "Reports"};
+        int input = readMenuInput(opt1);
+        
+        switch (input) {
+            case 0:
+                insertHandler();
+                input = -2;
+                break;
+            case 1:
+                updateHandler();
+                input = -2;
+                break;
+            case 2:
+                deleteHandler();
+                input = -2;
+                break;
+            case 3:
+                selectHandler();
+                input = -2;
+                break;
+            case 4:
+                reportHandler();
+                input = -2;
+                break;
+        }
     }
 
     public static void updateHandler() {
