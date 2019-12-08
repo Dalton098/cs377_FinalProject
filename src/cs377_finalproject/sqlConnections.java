@@ -16,7 +16,6 @@ public class sqlConnections {
 
     public static void insertCar(int regNum, String make, String model, int year, int price) throws SQLException {
 
-        //        regnum, make, model, year, sticker price
         try {
 
             String temp = selectSpecificCar(regNum);
@@ -27,8 +26,17 @@ public class sqlConnections {
 
                 establishConnectionToDatabase();
                 //Insert Into Car Values (123, 'Honda', 'Civic LX', 2018, 18840, 1)
-                String query = "INSERT INTO [FinalProject].[dbo].[Car] VALUES (" + regNum + ", '" + make + "', '" + model + "'," + year + "," + price + ")";
+                //(" + regNum + ", '" + make + "', '" + model + "'," + year + "," + price + "," + 1 + ")";
+                String query = "INSERT INTO [FinalProject].[dbo].[Car] VALUES(?,?,?,?,?,1)";
                 pstmt = conn.prepareStatement(query);
+                pstmt.setInt(1, regNum);
+                pstmt.setString(2, make);
+                pstmt.setString(3, model);
+                pstmt.setInt(4, year);
+                pstmt.setInt(5, price);
+                
+                pstmt.executeUpdate();
+                
                 System.out.println("Insert Successful");
 
             } else {
