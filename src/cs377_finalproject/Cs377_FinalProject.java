@@ -86,21 +86,30 @@ public class Cs377_FinalProject {
                 String[] output1 = {"", "", "", "", ""};
                 for(int i = 0; i < inputs1.length; i++){
                     System.out.println("Insert " + inputs1[i] + ": ");
-                    output1[i] = in.next();
+                    in.nextLine();
+                    output1[i] = in.nextLine();
                 }
                 sqlConnections.insertCar(Integer.parseInt(output1[0]), output1[1], output1[2], Integer.parseInt(output1[3]), Integer.parseInt(output1[4]));
                 break;
             case 1:
-                String[] inputs2 = {"Registration Number", "Sale Price", "Employee SSN", "Date"};
+                String[] inputs2 = {"Registration Number", "Sale Price", "Employee SSN", "Date (yyyy-mm-dd"};
                 String[] output2 = {"", "", "", ""};
                 for(int i = 0; i < inputs2.length; i++){
                     System.out.println("Insert " + inputs2[i] + ": ");
-                    output2[i] = in.next();
+                    in.nextLine();
+                    output2[i] = in.nextLine();
                 }
                 sqlConnections.insertSale(Integer.parseInt(output2[0]), Integer.parseInt(output2[1]), Integer.parseInt(output2[2]), output2[3]);
                 break;
             case 2:
-                //insert department
+                String[] inputs3 = {"Department Name"};
+                String[] output3 = {""};
+                for(int i = 0; i < inputs3.length; i++){
+                    System.out.println("Insert " + inputs3[i] + ": ");
+                    in.nextLine();
+                    output3[i] = in.nextLine();
+                }
+                sqlConnections.insertDepartment(output3[0]);
                 break;
         }
     }

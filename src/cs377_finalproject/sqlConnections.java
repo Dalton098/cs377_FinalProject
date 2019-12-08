@@ -74,8 +74,6 @@ public class sqlConnections {
 
             if (isValidEmployee && isValidDate) {
                 
-                System.out.println("valid");
-
                 establishConnectionToDatabase();
                 String query = "INSERT INTO [FinalProject].[dbo].[Sales] VALUES(?,?,?,?)";
                 pstmt = conn.prepareStatement(query);
@@ -110,14 +108,17 @@ public class sqlConnections {
     }
 
     public static void insertDepartment(String deptName) throws SQLException {
-//        needs department name
 
         try {
             establishConnectionToDatabase();
-            String query = "";
+                        
+            String query = "INSERT INTO [FinalProject].[dbo].[Department] VALUES(?)";
             pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, deptName);
+            pstmt.executeUpdate();
+                
+            System.out.println("Insert Successful");
 
-//            insert query shit here (use prepared statement)
         } catch (SQLException e) {
 
             System.out.println("ERROR: Could not insert department");
