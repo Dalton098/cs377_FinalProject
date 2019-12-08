@@ -27,10 +27,8 @@ public class sqlConnections {
 
                 establishConnectionToDatabase();
                 //Insert Into Car Values (123, 'Honda', 'Civic LX', 2018, 18840, 1)
-                String query = "INSERT INTO [FinalProject].[dbo].[Car] VALUES( " 
-                        + regNum + "," + make + "," + model + "," + year + "," + price + ")";
+                String query = "INSERT INTO [FinalProject].[dbo].[Car] VALUES (" + regNum + ", '" + make + "', '" + model + "'," + year + "," + price + ")";
                 pstmt = conn.prepareStatement(query);
-
                 System.out.println("Insert Successful");
 
             } else {
