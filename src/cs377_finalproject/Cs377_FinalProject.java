@@ -74,32 +74,27 @@ public class Cs377_FinalProject {
 
     }
 
-    public static void insertHandler() {
+    public static void insertHandler() throws SQLException {
         System.out.println("insert");
         
-        String[] opt1 = {"Insert query", "Update query", "Delete query", "Select query", "Reports"};
+        String[] opt1 = {"Insert car", "Insert sale", "Insert department"};
         int input = readMenuInput(opt1);
         
         switch (input) {
             case 0:
-                insertHandler();
-                input = -2;
+                String[] inputs = {"Registration Number", "Make", "Model", "Year", "Price"};
+                String[] output = {"", "", "", "", ""};
+                for(int i = 0; i < inputs.length; i++){
+                    System.out.println("Insert " + inputs[i] + ": ");
+                    output[i] = in.next();
+                }
+                sqlConnections.insertCar(Integer.parseInt(output[0]), output[1], output[2], Integer.parseInt(output[3]), Integer.parseInt(output[4]));
                 break;
             case 1:
-                updateHandler();
-                input = -2;
+                //insert sale
                 break;
             case 2:
-                deleteHandler();
-                input = -2;
-                break;
-            case 3:
-                selectHandler();
-                input = -2;
-                break;
-            case 4:
-                reportHandler();
-                input = -2;
+                //insert department
                 break;
         }
     }

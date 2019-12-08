@@ -709,7 +709,7 @@ public class sqlConnections {
         return null;
     }
 
-//------------------------------- Helper Methods Below    ------------------------------------------------------
+    //------------------------------- Helper Methods Below    ------------------------------------------------------
     /**
      * Connects to the database for the queries
      */
