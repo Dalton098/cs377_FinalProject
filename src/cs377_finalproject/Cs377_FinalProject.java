@@ -82,16 +82,22 @@ public class Cs377_FinalProject {
         
         switch (input) {
             case 0:
-                String[] inputs = {"Registration Number", "Make", "Model", "Year", "Price"};
-                String[] output = {"", "", "", "", ""};
-                for(int i = 0; i < inputs.length; i++){
-                    System.out.println("Insert " + inputs[i] + ": ");
-                    output[i] = in.next();
+                String[] inputs1 = {"Registration Number", "Make", "Model", "Year", "Price"};
+                String[] output1 = {"", "", "", "", ""};
+                for(int i = 0; i < inputs1.length; i++){
+                    System.out.println("Insert " + inputs1[i] + ": ");
+                    output1[i] = in.next();
                 }
-                sqlConnections.insertCar(Integer.parseInt(output[0]), output[1], output[2], Integer.parseInt(output[3]), Integer.parseInt(output[4]));
+                sqlConnections.insertCar(Integer.parseInt(output1[0]), output1[1], output1[2], Integer.parseInt(output1[3]), Integer.parseInt(output1[4]));
                 break;
             case 1:
-                //insert sale
+                String[] inputs2 = {"Registration Number", "Sale Price", "Employee SSN", "Date"};
+                String[] output2 = {"", "", "", ""};
+                for(int i = 0; i < inputs2.length; i++){
+                    System.out.println("Insert " + inputs2[i] + ": ");
+                    output2[i] = in.next();
+                }
+                sqlConnections.insertSale(Integer.parseInt(output2[0]), Integer.parseInt(output2[1]), Integer.parseInt(output2[2]), output2[3]);
                 break;
             case 2:
                 //insert department

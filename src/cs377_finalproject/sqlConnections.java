@@ -25,8 +25,7 @@ public class sqlConnections {
             if (isNewCar) {
 
                 establishConnectionToDatabase();
-                //Insert Into Car Values (123, 'Honda', 'Civic LX', 2018, 18840, 1)
-                //(" + regNum + ", '" + make + "', '" + model + "'," + year + "," + price + "," + 1 + ")";
+                
                 String query = "INSERT INTO [FinalProject].[dbo].[Car] VALUES(?,?,?,?,?,1)";
                 pstmt = conn.prepareStatement(query);
                 pstmt.setInt(1, regNum);
@@ -34,7 +33,6 @@ public class sqlConnections {
                 pstmt.setString(3, model);
                 pstmt.setInt(4, year);
                 pstmt.setInt(5, price);
-                
                 pstmt.executeUpdate();
                 
                 System.out.println("Insert Successful");
@@ -61,8 +59,6 @@ public class sqlConnections {
     }
 
     public static void insertSale(int regNum, int salePrice, int employeeSsn, String date) throws SQLException {
-//        needs reg num, sale price, employee ssn, date
-//        check employee is valid and that the date is in proper format yyyy-mm-dd
 
         try {
 
@@ -71,15 +67,26 @@ public class sqlConnections {
             // Checking to see if the manager exist
             boolean isValidEmployee = temp != null || temp.length() != 0;
             
-            
             // Checking if valid date
             boolean isValidDate = Pattern.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}", date);
+            
+            // Will error if regNum does not exist, may want to check if that is valid as well
 
             if (isValidEmployee && isValidDate) {
+                
+                System.out.println("valid");
 
                 establishConnectionToDatabase();
-                String query = "";
+                String query = "INSERT INTO [FinalProject].[dbo].[Sales] VALUES(?,?,?,?)";
                 pstmt = conn.prepareStatement(query);
+                pstmt.setInt(1, regNum);
+                pstmt.setInt(2, salePrice);
+                pstmt.setInt(3, employeeSsn);
+                pstmt.setDate(4, Date.valueOf(date));
+                pstmt.executeUpdate();
+                
+                System.out.println("Insert Successful");
+                
             } else {
                 System.out.println("Invalid Employee SSN or date format");
             }
