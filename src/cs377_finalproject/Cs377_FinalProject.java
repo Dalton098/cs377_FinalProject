@@ -75,8 +75,7 @@ public class Cs377_FinalProject {
     }
 
     public static void insertHandler() throws SQLException {
-        System.out.println("insert");
-        
+
         String[] opt1 = {"Insert car", "Insert sale", "Insert department"};
         int input = readMenuInput(opt1);
         
