@@ -1,6 +1,3 @@
-Drop Database FinalProject
-Go
-
 Create DATABASE FinalProject
 Go
 
@@ -13,13 +10,15 @@ Create Table Department (
 
 -- DeptId and MgrSsn are allowed to be null to prevent cascading deletes
 -- Managers are their own managers so their MgrSsn is their own Ssn
+-- NOTE: Since MgrSsn references the Employee table itself the "ON DELETE SET NULL"
+--       line cannot be used since Managers are their own managers
 Create Table Employee (
-    Ssn INT PRIMARY KEY NOT NULL,
+    Ssn INT PRIMARY KEY NOT NULl,
     EmpName VARCHAR(50) NOT NULL,
     StartDate DATE NOT NULL,
     Salary INT NOT NULL,
     DeptId INT FOREIGN KEY REFERENCES Department(DeptId) ON DELETE SET NULL,
-    MgrSsn INT FOREIGN KEY REFERENCES Employee(Ssn) ON DELETE SET NULL
+    MgrSsn INT FOREIGN KEY REFERENCES Employee(Ssn)
 )
 
 Create Table Car (
