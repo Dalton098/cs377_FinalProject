@@ -194,6 +194,16 @@ public class Cs377_FinalProject {
                 String[] output3 = getQueryInputs(inputs3);
                 System.out.println(sqlConnections.selectCars(output3[0], output3[1], Integer.parseInt(output3[2])));
                 break;
+            case 3:
+                String[] inputs4 = {"Sale ID"};
+                String[] output4 = getQueryInputs(inputs4);
+                System.out.println(sqlConnections.selectSale(Integer.parseInt(output4[0])));
+                break;
+            case 4:
+                String[] inputs5 = {"Department ID"};
+                String[] output5 = getQueryInputs(inputs5);
+                System.out.println(sqlConnections.selectDepartment(Integer.parseInt(output5[0])));
+                break;
         }
     }
 
