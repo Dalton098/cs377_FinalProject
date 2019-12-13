@@ -1,6 +1,3 @@
-Drop Database FinalProject
-Go
-
 Create DATABASE FinalProject
 Go
 
@@ -13,12 +10,14 @@ Create Table Department (
 
 -- DeptId and MgrSsn are allowed to be null to prevent cascading deletes
 -- Managers are their own managers so their MgrSsn is their own Ssn
+-- NOTE: Since MgrSsn references the Employee table itself the "ON DELETE SET NULL"
+--       line cannot be used since Managers are their own managers
 Create Table Employee (
-    Ssn INT PRIMARY KEY NOT NULL,
+    Ssn INT PRIMARY KEY NOT NULl,
     EmpName VARCHAR(50) NOT NULL,
     StartDate DATE NOT NULL,
     Salary INT NOT NULL,
-    DeptId INT FOREIGN KEY REFERENCES Department(DeptId),
+    DeptId INT FOREIGN KEY REFERENCES Department(DeptId) ON DELETE SET NULL,
     MgrSsn INT FOREIGN KEY REFERENCES Employee(Ssn)
 )
 
@@ -37,7 +36,7 @@ Create Table Sales (
     SaleId INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
     RegistrationNum INT NOT NULL FOREIGN KEY REFERENCES Car(RegistrationNum),
     SalePrice INT NOT NULL,
-    EmployeeSsn INT FOREIGN KEY REFERENCES Employee(Ssn),
+    EmployeeSsn INT FOREIGN KEY REFERENCES Employee(Ssn) ON DELETE SET NULL,
     SaleDate DATE NOT NULL
 )
 
@@ -65,5 +64,8 @@ Insert Into Car Values (125, 'Subaru', 'Crosstrek', 2017, 27000, 1)
 Insert Into Car Values (126, 'Subaru', 'Crosstrek Hybrid', 2017, 35000, 1)
 Insert Into Car Values (127, 'Subaru', 'WRX', 2020, 29000, 1)
 Insert Into Car Values (128, 'Subaru', 'WRX Limited', 2020, 32000, 1)
+
+-- NOTE: No sales are inserted because those are supposed to be added naturally through
+-- the java program component of our project
 
 Go

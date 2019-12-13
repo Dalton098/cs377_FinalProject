@@ -4,16 +4,28 @@ import java.sql.*;
 import java.util.regex.Pattern;
 
 /**
- * sqlConnections for the front end
- *
- * Types of connections/Queries include: Inserts, Deletes, Updates, Selects, and
- * Reports
+ * CS377_FinalProject SQL Connections
+ * @author Dalton Rothenberger, David Singleton
+ * 
+ * 
+ * SQL queries for the various features of the CLI component. 
+ * Types of connections/Queries include: Inserts, Deletes, Updates, Selects, and Reports
  */
 public class sqlConnections {
 
     private static Connection conn;
     private static PreparedStatement pstmt;
 
+    /**
+     * Inserts the car into the car table
+     *
+     * @param regNum The registration number of the car
+     * @param make The make of the car
+     * @param model The model of the car
+     * @param year The year the car was made
+     * @param price The sticker price of the car
+     * @throws SQLException
+     */
     public static void insertCar(int regNum, String make, String model, int year, int price) throws SQLException {
 
         try {
@@ -25,7 +37,7 @@ public class sqlConnections {
             if (isNewCar) {
 
                 establishConnectionToDatabase();
-                
+
                 String query = "INSERT INTO [FinalProject].[dbo].[Car] VALUES(?,?,?,?,?,1)";
                 pstmt = conn.prepareStatement(query);
                 pstmt.setInt(1, regNum);
@@ -34,7 +46,7 @@ public class sqlConnections {
                 pstmt.setInt(4, year);
                 pstmt.setInt(5, price);
                 pstmt.executeUpdate();
-                
+
                 System.out.println("Insert Successful");
 
             } else {
@@ -58,6 +70,15 @@ public class sqlConnections {
 
     }
 
+    /**
+     * Inserts the sale into the sale table
+     *
+     * @param regNum The registration number of the car
+     * @param salePrice The sale price of the car
+     * @param employeeSsn The employee who sold the car
+     * @param date The date of the sale
+     * @throws SQLException
+     */
     public static void insertSale(int regNum, int salePrice, int employeeSsn, String date) throws SQLException {
 
         try {
@@ -66,14 +87,13 @@ public class sqlConnections {
 
             // Checking to see if the manager exist
             boolean isValidEmployee = temp != null || temp.length() != 0;
-            
+
             // Checking if valid date
             boolean isValidDate = Pattern.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}", date);
-            
-            // Will error if regNum does not exist, may want to check if that is valid as well
 
+            // Will error if regNum does not exist, may want to check if that is valid as well
             if (isValidEmployee && isValidDate) {
-                
+
                 establishConnectionToDatabase();
                 String query = "INSERT INTO [FinalProject].[dbo].[Sales] VALUES(?,?,?,?)";
                 pstmt = conn.prepareStatement(query);
@@ -82,14 +102,13 @@ public class sqlConnections {
                 pstmt.setInt(3, employeeSsn);
                 pstmt.setDate(4, Date.valueOf(date));
                 pstmt.executeUpdate();
-                
+
                 System.out.println("Insert Successful");
-                
+
             } else {
                 System.out.println("Invalid Employee SSN or date format");
             }
 
-//            insert query shit here (use prepared statement)
         } catch (Exception e) {
 
             System.out.println("ERROR: Could not insert sale");
@@ -107,16 +126,22 @@ public class sqlConnections {
 
     }
 
+    /**
+     * Inserts the given department into the department table
+     *
+     * @param deptName The name of the department
+     * @throws SQLException
+     */
     public static void insertDepartment(String deptName) throws SQLException {
 
         try {
             establishConnectionToDatabase();
-                        
+
             String query = "INSERT INTO [FinalProject].[dbo].[Department] VALUES(?)";
             pstmt = conn.prepareStatement(query);
             pstmt.setString(1, deptName);
             pstmt.executeUpdate();
-                
+
             System.out.println("Insert Successful");
 
         } catch (SQLException e) {
@@ -221,6 +246,7 @@ public class sqlConnections {
                 pstmt.executeUpdate();
 
                 System.out.println("Update Successful");
+
             } else {
                 System.out.println("Invalid Employee/Manager SSN, update failed");
             }
@@ -326,7 +352,7 @@ public class sqlConnections {
 
                 pstmt.executeUpdate();
 
-                System.out.println("Update Successful\n");
+                System.out.println("Update Successful");
             } else {
                 System.out.println("Invalid Employee SSN, update failed");
             }
@@ -376,7 +402,7 @@ public class sqlConnections {
 
                 pstmt.executeUpdate();
 
-                System.out.println("Update Successful\n");
+                System.out.println("Update Successful");
 
             } else {
                 System.out.println("Invalid Department ID, update failed");
@@ -398,14 +424,28 @@ public class sqlConnections {
         }
     }
 
+    /**
+     * Deletes the given employee and sets the MgrSsn = null for any Employee
+     * that was managed by the deleted employee
+     *
+     * @param employeeSsn The employee to delete
+     * @throws SQLException
+     */
     public static void deleteEmployee(int employeeSsn) throws SQLException {
-//        i think this will automatically handle setting null to people who use the deleteed employee as a manager
-        try {
-            establishConnectionToDatabase();
-            String query = "";
-            pstmt = conn.prepareStatement(query);
 
-//            insert query shit here (use prepared statement)
+        try {
+            // Sets any Employees referencing the given employee as a manager to null
+            setManagerNull(employeeSsn);
+
+            establishConnectionToDatabase();
+
+            String query = "DELETE FROM [FinalProject].[dbo].[Employee] WHERE Ssn = ?";
+            pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1, employeeSsn);
+            pstmt.executeUpdate();
+
+            System.out.println("Delete Successful");
+
         } catch (SQLException e) {
 
             System.out.println("ERROR: Could not delete the given employee");
@@ -422,21 +462,62 @@ public class sqlConnections {
         }
     }
 
-//    public static void deleteCar() {
-////        might not need this because then will have to delete the sale
-//    }
+    /**
+     * Deletes the given department. Any employee in this department now has a
+     * DeptId = null
+     *
+     * @param deptId The ID of the department to delete
+     * @throws SQLException
+     */
     public static void deleteDepartment(int deptId) throws SQLException {
-//        should automatically set employees in this department to have a null deptid
 
         try {
             establishConnectionToDatabase();
-            String query = "";
-            pstmt = conn.prepareStatement(query);
 
-//            insert query shit here (use prepared statement)
+            String query = "DELETE FROM [FinalProject].[dbo].[Department] WHERE DeptId = ?";
+            pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1, deptId);
+            pstmt.executeUpdate();
+
+            System.out.println("Delete Successful");
+
         } catch (SQLException e) {
 
             System.out.println("ERROR: Could not delete the given department");
+
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+
+            if (pstmt != null) {
+                pstmt.close();
+            }
+
+        }
+    }
+
+    /**
+     * Deletes the given sale
+     *
+     * @param saleId The ID of the sale to delete
+     * @throws SQLException
+     */
+    public static void deleteSale(int saleId) throws SQLException {
+
+        try {
+            establishConnectionToDatabase();
+
+            String query = "DELETE FROM [FinalProject].[dbo].[Sales] WHERE SaleId = ?";
+            pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1, saleId);
+            pstmt.executeUpdate();
+
+            System.out.println("Delete Successful");
+
+        } catch (SQLException e) {
+
+            System.out.println("ERROR: Could not delete the given sale");
 
         } finally {
             if (conn != null) {
@@ -662,25 +743,40 @@ public class sqlConnections {
         return null;
     }
 
-    public static String inventoryReport() throws SQLException {
-//        count up # of cars by make, model, year and are available
-//        This one is gonna be a lot of work
-//        Make a map where the key is a concatanation of make model and year and value is the count for the car
-//        Get all the records from sql and check if available
-//        then check if key already exist (if it does increment that value) (if it does not, make it a key and increment the value)
-//        then make a string like follows Key: value for the whole map
-//        
-        try {
-            establishConnectionToDatabase();
-            String query = "";
-            pstmt = conn.prepareStatement(query);
+    /**
+     * Updates all foreign keys of the given MgrSsn to be null
+     *
+     * @param managerSsn The ssn of the manager
+     * @throws SQLException
+     */
+    public static void setManagerNull(int managerSsn) throws SQLException {
 
-//            insert query shit here (use prepared statement)
-            return null;
+        try {
+
+            String temp1 = selectEmployee(managerSsn);
+
+            // Checking to see if the manager exist
+            boolean isValidManager = temp1 != null || temp1.length() != 0;
+
+            if (isValidManager) {
+                establishConnectionToDatabase();
+                String query = "Update [FinalProject].[dbo].[Employee]"
+                        + " Set MgrSsn = ?"
+                        + " Where MgrSsn = ?";
+                pstmt = conn.prepareStatement(query);
+
+                pstmt.setNull(1, java.sql.Types.INTEGER);
+                pstmt.setInt(2, managerSsn);
+
+                pstmt.executeUpdate();
+
+            } else {
+                System.out.println("Invalid Manager SSN, update failed");
+            }
 
         } catch (SQLException e) {
 
-            System.out.println("ERROR: Could not complete inventory report");
+            System.out.println("ERROR: Could not update the update the given MgrSsn to be NULL");
 
         } finally {
             if (conn != null) {
@@ -692,37 +788,6 @@ public class sqlConnections {
             }
 
         }
-
-        return null;
-    }
-
-    public static String salesReport() throws SQLException {
-//        shows lowest sale, highest sale, avg sale for each make, model, and year
-//        most likely gonna be a hell a lot of joins between the tables but will reuse a lot of the inventory report query
-        try {
-            establishConnectionToDatabase();
-            String query = "";
-            pstmt = conn.prepareStatement(query);
-
-//            insert query shit here (use prepared statement)
-            return null;
-
-        } catch (SQLException e) {
-
-            System.out.println("ERROR: Could not complete sales report");
-
-        } finally {
-            if (conn != null) {
-                conn.close();
-            }
-
-            if (pstmt != null) {
-                pstmt.close();
-            }
-
-        }
-
-        return null;
     }
 
     //------------------------------- Helper Methods Below    ------------------------------------------------------
@@ -733,7 +798,7 @@ public class sqlConnections {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             String connectionUrl = "jdbc:sqlserver://localhost;databaseName=FinalProject;integratedSecurity=false;user=sa;password=reallyStrongPwd123";
-            if(System.getProperty("os.name").equals("Windows 10")){
+            if (System.getProperty("os.name").equals("Windows 10")) {
                 connectionUrl = "jdbc:sqlserver://localhost;integratedSecurity=true;";
             }
             conn = DriverManager.getConnection(connectionUrl);
