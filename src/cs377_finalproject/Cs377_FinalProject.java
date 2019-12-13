@@ -163,32 +163,32 @@ public class Cs377_FinalProject {
         // select employee, select specific car, select cars, select sale, select department
         String[] opt = {"Select employee", "Select specific car", "Select cars", "Select sale", "Select department"};
         int input = readMenuInput(opt);
-
+        
         switch (input) {
             case 0:
                 String[] inputs1 = {"Employee SSN"};
                 String[] output1 = getQueryInputs(inputs1);
-                System.out.println(sqlConnections.selectEmployee(Integer.parseInt(output1[0])));
+                System.out.print("\n" + sqlConnections.selectEmployee(Integer.parseInt(output1[0])));
                 break;
             case 1:
                 String[] inputs2 = {"Registration Number"};
                 String[] output2 = getQueryInputs(inputs2);
-                System.out.println(sqlConnections.selectSpecificCar(Integer.parseInt(output2[0])));
+                System.out.print("\n" + sqlConnections.selectSpecificCar(Integer.parseInt(output2[0])));
                 break;
             case 2:
                 String[] inputs3 = {"Make", "Model", "Year"};
                 String[] output3 = getQueryInputs(inputs3);
-                System.out.println(sqlConnections.selectCars(output3[0], output3[1], Integer.parseInt(output3[2])));
+                System.out.print("\n" + sqlConnections.selectCars(output3[0], output3[1], Integer.parseInt(output3[2])));
                 break;
             case 3:
                 String[] inputs4 = {"Sale ID"};
                 String[] output4 = getQueryInputs(inputs4);
-                System.out.println(sqlConnections.selectSale(Integer.parseInt(output4[0])));
+                System.out.print("\n" + sqlConnections.selectSale(Integer.parseInt(output4[0])));
                 break;
             case 4:
                 String[] inputs5 = {"Department ID"};
                 String[] output5 = getQueryInputs(inputs5);
-                System.out.println(sqlConnections.selectDepartment(Integer.parseInt(output5[0])));
+                System.out.print("\n" + sqlConnections.selectDepartment(Integer.parseInt(output5[0])));
                 break;
         }
     }
