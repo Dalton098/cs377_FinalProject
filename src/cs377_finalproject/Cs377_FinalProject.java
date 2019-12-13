@@ -102,9 +102,29 @@ public class Cs377_FinalProject {
      *
      * @throws SQLException
      */
-    public static void updateHandler() {
+    public static void updateHandler() throws SQLException {
 
         // update sale price, update employee manager, update car availability, update salary, update dept name
+        String[] opt = {"Update sale price", "Update employee manager", "Update car availability", "Update salary", "Update department name"};
+        int input = readMenuInput(opt);
+
+        switch (input) {
+            case 0:
+                String[] inputs1 = {"Sale ID", "Sale Price"};
+                String[] output1 = getQueryInputs(inputs1);
+                sqlConnections.updateSalary(Integer.parseInt(output1[0]), Integer.parseInt(output1[1]));
+                break;
+            case 1:
+                String[] inputs2 = {"Employee SSN", "Manager SSN"};
+                String[] output2 = getQueryInputs(inputs2);
+                sqlConnections.updateEmployeeManager(Integer.parseInt(output2[0]), Integer.parseInt(output2[1]));
+                break;
+            case 2:
+                String[] inputs3 = {"Employee SSN", "Manager SSN"};
+                String[] output3 = getQueryInputs(inputs3);
+                sqlConnections.updateCarAvailability(Integer.parseInt(output2[0]), Integer.parseInt(output2[1]));
+                break;
+        }
     }
 
     /**
