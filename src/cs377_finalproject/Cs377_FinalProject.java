@@ -172,9 +172,29 @@ public class Cs377_FinalProject {
      *
      * @throws SQLException
      */
-    public static void selectHandler() {
+    public static void selectHandler() throws SQLException {
 
         // select employee, select specific car, select cars, select sale, select department
+        String[] opt = {"Select employee", "Select specific car", "Select cars", "Select sale", "Select department"};
+        int input = readMenuInput(opt);
+
+        switch (input) {
+            case 0:
+                String[] inputs1 = {"Employee SSN"};
+                String[] output1 = getQueryInputs(inputs1);
+                System.out.println(sqlConnections.selectEmployee(Integer.parseInt(output1[0])));
+                break;
+            case 1:
+                String[] inputs2 = {"Registration Number"};
+                String[] output2 = getQueryInputs(inputs2);
+                System.out.println(sqlConnections.selectSpecificCar(Integer.parseInt(output2[0])));
+                break;
+            case 2:
+                String[] inputs3 = {"Make", "Model", "Year"};
+                String[] output3 = getQueryInputs(inputs3);
+                System.out.println(sqlConnections.selectCars(output3[0], output3[1], Integer.parseInt(output3[2])));
+                break;
+        }
     }
 
     /**
