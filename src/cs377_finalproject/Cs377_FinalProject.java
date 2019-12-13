@@ -37,7 +37,7 @@ public class Cs377_FinalProject {
         int input = -2;
 
         while (input != -1) {
-            String[] opt = {"Insert query", "Update query", "Delete query", "Select query", "Reports"};
+            String[] opt = {"Insert query", "Update query", "Delete query", "Select query"};
             input = readMenuInput(opt);
 
             // reset input to -2 so that menu reappears after query is done
@@ -104,7 +104,6 @@ public class Cs377_FinalProject {
      */
     public static void updateHandler() throws SQLException {
 
-        // update sale price, update employee manager, update car availability, update salary, update dept name
         String[] opt = {"Update sale price", "Update employee manager", "Update car availability", "Update salary", "Update department name"};
         int input = readMenuInput(opt);
 
@@ -124,6 +123,16 @@ public class Cs377_FinalProject {
                 String[] output3 = getQueryInputs(inputs3);
                 sqlConnections.updateCarAvailability(Integer.parseInt(output3[0]), Boolean.parseBoolean(output3[1]));
                 break;
+            case 3:
+                String[] inputs4 = {"Employee SSN", "Salary"};
+                String[] output4 = getQueryInputs(inputs4);
+                sqlConnections.updateSalary(Integer.parseInt(output4[0]), Integer.parseInt(output4[1]));
+                break;
+            case 4:
+                String[] inputs5 = {"Department ID", "New Name"};
+                String[] output5 = getQueryInputs(inputs5);
+                sqlConnections.updateDepartmentName(Integer.parseInt(output5[0]), output5[1]);
+                break;
         }
     }
 
@@ -133,9 +142,28 @@ public class Cs377_FinalProject {
      *
      * @throws SQLException
      */
-    public static void deleteHandler() {
+    public static void deleteHandler() throws SQLException {
+        
+        String[] opt = {"Delete employee", "Delete department", "Delete sale"};
+        int input = readMenuInput(opt);
 
-        // delete employee, delete department, delete sale
+        switch (input) {
+            case 0:
+                String[] inputs1 = {"Employee SSN"};
+                String[] output1 = getQueryInputs(inputs1);
+                sqlConnections.deleteEmployee(Integer.parseInt(output1[0]));
+                break;
+            case 1:
+                String[] inputs2 = {"Department ID"};
+                String[] output2 = getQueryInputs(inputs2);
+                sqlConnections.deleteDepartment(Integer.parseInt(output2[0]));
+                break;
+            case 2:
+                String[] inputs3 = {"Sale ID"};
+                String[] output3 = getQueryInputs(inputs3);
+                sqlConnections.deleteSale(Integer.parseInt(output3[0]));
+                break;
+        }
     }
 
     /**
