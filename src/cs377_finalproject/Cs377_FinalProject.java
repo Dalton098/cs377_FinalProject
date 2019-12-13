@@ -120,9 +120,9 @@ public class Cs377_FinalProject {
                 sqlConnections.updateEmployeeManager(Integer.parseInt(output2[0]), Integer.parseInt(output2[1]));
                 break;
             case 2:
-                String[] inputs3 = {"Employee SSN", "Manager SSN"};
+                String[] inputs3 = {"Registration Number", "Available? (true/false)"};
                 String[] output3 = getQueryInputs(inputs3);
-                sqlConnections.updateCarAvailability(Integer.parseInt(output2[0]), Integer.parseInt(output2[1]));
+                sqlConnections.updateCarAvailability(Integer.parseInt(output3[0]), Boolean.parseBoolean(output3[1]));
                 break;
         }
     }
